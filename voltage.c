@@ -174,17 +174,17 @@ int main(int argc, char **argv)
   printf("Reading reference:");
   sleep(sleep_time);
   send_command_to_instrument(lxi_reference, "READ?");   // Ignore first reading
-  lxi_receive(lxi_reference, response, sizeof(response), 10000);        // Ignore first reading
+  read_data_from_instrument(lxi_reference);     // Ignore first reading
   send_command_to_instrument(lxi_reference, "READ?");   //Take DMM reading.
-  lxi_receive(lxi_reference, response, sizeof(response), 10000);        // Wait DMM reading.
-  printf("%s", response);
+  read_data_from_instrument(lxi_reference);     // Wait DMM reading.
+  printf("%s\n", response);
 
   if(mode == 1)
   {
     printf("Calibrate source function negative full scale:");
     snprintf(data, sizeof data, "CAL:ADJ:SOUR %s", response);
     send_command_to_instrument(lxi_target, data);
-    printf(" %s", data);
+    printf(" %s\n", data);
 
     printf("Calibrate sense function negative full scale:");
     snprintf(data, sizeof data, "CAL:ADJ:SENS %s", response);
@@ -197,8 +197,8 @@ int main(int argc, char **argv)
     printf("2450 readback:    ");
     send_command_to_instrument(lxi_target, ":FORMat:ASCii:PRECision 9");        //Take DMM reading.
     send_command_to_instrument(lxi_target, "MEAS:VOLT?");       //Take DMM reading.
-    lxi_receive(lxi_target, response, sizeof(response), 10000); // Wait DMM reading.
-    printf("%s", response);
+    read_data_from_instrument(lxi_target);      // Wait DMM reading.
+    printf("%s\n", response);
 
     readback = atof(response);
     tmp = (1 - fabs(readback) / fabs(reference)) * 1E6;
@@ -212,17 +212,17 @@ int main(int argc, char **argv)
   printf("Reading reference:");
   sleep(sleep_time);
   send_command_to_instrument(lxi_reference, "READ?");   // Ignore first reading
-  lxi_receive(lxi_reference, response, sizeof(response), 10000);        // Ignore first reading
+  read_data_from_instrument(lxi_reference);     // Ignore first reading
   send_command_to_instrument(lxi_reference, "READ?");   //Take DMM reading.
-  lxi_receive(lxi_reference, response, sizeof(response), 10000);        // Wait DMM reading.
-  printf("%s", response);
+  read_data_from_instrument(lxi_reference);     // Wait DMM reading.
+  printf("%s\n", response);
 
   if(mode == 1)
   {
     printf("Calibrate source function negative zero:");
     snprintf(data, sizeof data, "CAL:ADJ:SOUR %s", response);
     send_command_to_instrument(lxi_target, data);
-    printf(" %s", data);
+    printf(" %s\n", data);
 
     printf("Calibrate sense function negative zero:");
     snprintf(data, sizeof data, "CAL:ADJ:SENS %s", response);
@@ -231,10 +231,10 @@ int main(int argc, char **argv)
   } else
   {
     printf("2450 readback:    ");
-    send_command_to_instrument(lxi_target, ":FORMat:ASCii:PRECision 9");        //Take DMM reading.
-    send_command_to_instrument(lxi_target, "MEAS:VOLT?");       //Take DMM reading.
-    lxi_receive(lxi_target, response, sizeof(response), 10000); // Wait DMM reading.
-    printf("%s", response);
+    send_command_to_instrument(lxi_target, ":FORMat:ASCii:PRECision 9");        //Take target reading.
+    send_command_to_instrument(lxi_target, "MEAS:VOLT?");       //Take target reading.
+    read_data_from_instrument(lxi_target);      // Wait target reading.
+    printf("%s\n", response);
   }
 
   snprintf(data, sizeof data, ":SOUR:VOLT +%s", range); //Establish positive polarity.
@@ -245,17 +245,17 @@ int main(int argc, char **argv)
   printf("Reading reference:");
   sleep(sleep_time);
   send_command_to_instrument(lxi_reference, "READ?");   // Ignore first reading
-  lxi_receive(lxi_reference, response, sizeof(response), 10000);        // Ignore first reading
+  read_data_from_instrument(lxi_reference);     // Ignore first reading
   send_command_to_instrument(lxi_reference, "READ?");   //Take DMM reading.
-  lxi_receive(lxi_reference, response, sizeof(response), 10000);        // Wait DMM reading.
-  printf("%s", response);
+  read_data_from_instrument(lxi_reference);     // Wait DMM reading.
+  printf("%s\n", response);
 
   if(mode == 1)
   {
     printf("Calibrate sense function positive full scale:");
     snprintf(data, sizeof data, "CAL:ADJ:SOUR %s", response);
     send_command_to_instrument(lxi_target, data);
-    printf(" %s", data);
+    printf(" %s\n", data);
 
     printf("Calibrate source function positive full scale:");
     snprintf(data, sizeof data, "CAL:ADJ:SENS %s", response);
@@ -266,10 +266,10 @@ int main(int argc, char **argv)
     reference = atof(response);
 
     printf("2450 readback:    ");
-    send_command_to_instrument(lxi_target, ":FORMat:ASCii:PRECision 9");        //Take DMM reading.
-    send_command_to_instrument(lxi_target, "MEAS:VOLT?");       //Take DMM reading.
-    lxi_receive(lxi_target, response, sizeof(response), 10000); // Wait DMM reading.
-    printf("%s", response);
+    send_command_to_instrument(lxi_target, ":FORMat:ASCii:PRECision 9");        //Take target reading.
+    send_command_to_instrument(lxi_target, "MEAS:VOLT?");       //Take target reading.
+    read_data_from_instrument(lxi_target);      // Wait target reading.
+    printf("%s\n", response);
 
     readback = atof(response);
     tmp = (1 - fabs(readback) / fabs(reference)) * 1E6;
@@ -283,10 +283,10 @@ int main(int argc, char **argv)
   printf("Reading reference:");
   sleep(sleep_time);
   send_command_to_instrument(lxi_reference, "READ?");   // Ignore first reading
-  lxi_receive(lxi_reference, response, sizeof(response), 10000);        // Ignore first reading
+  read_data_from_instrument(lxi_reference);     // Ignore first reading
   send_command_to_instrument(lxi_reference, "READ?");   //Take DMM reading.
-  lxi_receive(lxi_reference, response, sizeof(response), 10000);        // Wait DMM reading.
-  printf("%s", response);
+  read_data_from_instrument(lxi_reference);     // Wait DMM reading.
+  printf("%s\n", response);
 
   if(mode == 1)
   {
@@ -297,10 +297,10 @@ int main(int argc, char **argv)
   } else
   {
     printf("2450 readback:    ");
-    send_command_to_instrument(lxi_target, ":FORMat:ASCii:PRECision 9");        //Take DMM reading.
-    send_command_to_instrument(lxi_target, "MEAS:VOLT?");       //Take DMM reading.
-    lxi_receive(lxi_target, response, sizeof(response), 10000); // Wait DMM reading.
-    printf("%s", response);
+    send_command_to_instrument(lxi_target, ":FORMat:ASCii:PRECision 9");        //Take target reading.
+    send_command_to_instrument(lxi_target, "MEAS:VOLT?");       //Take target reading.
+    read_data_from_instrument(lxi_target);      // Wait target reading.
+    printf("%s\n", response);
   }
 
 
