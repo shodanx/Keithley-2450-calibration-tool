@@ -539,7 +539,7 @@ int main(int argc, char **argv)
   if(mode == 1)
     if(atof(range) < 1e-4)
     {
-      printf("You can't adjust 2450 on lower 100uA !\n");
+      printf("You can't adjust 2450 current ranges lower 100uA !\n");
       return 0;
     }
 
