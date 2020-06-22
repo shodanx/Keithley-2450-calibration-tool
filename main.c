@@ -5,6 +5,7 @@
 #include <math.h>
 #include <string.h>
 #include <lxi.h>
+#include <time.h>
 
 char response[256];
 int lxi_reference, lxi_target, mode = 0;        // mode 0 - performance verification, 1 - adjustment
@@ -15,6 +16,10 @@ int cont;
 double reference, readback, tmp, tmp2, setting = 0;
 char data[512];
 char reference_ip[64], target_ip[64], range[64];
+time_t rawtime;
+struct tm *timeinfo;
+char time_cal[80];
+
 
 // ---------------------------------------------------------------------------------------------------
 //
@@ -50,6 +55,72 @@ void read_data_from_instrument(int lxi_reference)
 
   return;
 }
+
+// ---------------------------------------------------------------------------------------------------
+//
+//
+//
+// ---------------------------------------------------------------------------------------------------
+
+void request(void)
+{
+
+  if(volt_cur == 0)
+  {
+    printf("Reading calibration data....\n");
+    send_command_to_instrument(lxi_target, "*RST");
+    send_command_to_instrument(lxi_target, ":SOUR:FUNC VOLT");
+    send_command_to_instrument(lxi_target, ":SENS:CURR:RANG 0.1");
+    send_command_to_instrument(lxi_target, ":SOUR:VOLT:PROT:LEV NONE");
+    send_command_to_instrument(lxi_target, ":SYST:RSEN OFF");
+    if(mode == 1)
+    {
+      send_command_to_instrument(lxi_target, "CAL:UNL 'KI002400'");
+      printf("Calibrtation unlocked\n");
+    }
+    send_command_to_instrument(lxi_target, ":ROUT:TERM REAR");
+
+
+// Voltage range calibration
+    snprintf(data, sizeof data, ":SOUR:VOLT:RANG %s", range);   // Calibrate source function negative zero.
+    printf("\nTarget:  %s\n", data);
+    send_command_to_instrument(lxi_target, data);       //Select source range.
+
+    send_command_to_instrument(lxi_target, "CAL:ADJ:SENS:DATA?");
+    read_data_from_instrument(lxi_target);      // Wait DMM reading.
+    printf("Sense data: %s\n", response);
+
+    send_command_to_instrument(lxi_target, "CAL:ADJ:SOUR:DATA?");
+    read_data_from_instrument(lxi_target);      // Wait DMM reading.
+    printf("Source data: %s\n", response);
+
+  } else
+  {
+    printf("Reading calibration data....\n");
+    send_command_to_instrument(lxi_target, "CAL:LOCK");
+
+    send_command_to_instrument(lxi_target, "*RST");
+    send_command_to_instrument(lxi_target, ":SOUR:FUNC CURR");
+    send_command_to_instrument(lxi_target, ":SENS:VOLT:RANG 20");
+    send_command_to_instrument(lxi_target, ":ROUT:TERM REAR");
+
+    snprintf(data, sizeof data, ":SOUR:CURR:RANGE %s", range);  // Select source range.
+    printf("\nTarget:  %s\n", data);
+    send_command_to_instrument(lxi_target, data);       //Select source range.
+
+
+    send_command_to_instrument(lxi_target, "CAL:ADJ:SENS:DATA?");
+    read_data_from_instrument(lxi_target);      // Wait DMM reading.
+    printf("Sense data: %s\n", response);
+
+    send_command_to_instrument(lxi_target, "CAL:ADJ:SOUR:DATA?");
+    read_data_from_instrument(lxi_target);      // Wait DMM reading.
+    printf("Source data: %s\n", response);
+
+  }
+  return;
+}
+
 
 // ---------------------------------------------------------------------------------------------------
 //
@@ -238,7 +309,8 @@ void current(void)
 
     if(cont == 'Y')
     {
-      send_command_to_instrument(lxi_target, "CAL:SAVE");
+      send_command_to_instrument(lxi_target, time_cal); // Save calibration time
+      send_command_to_instrument(lxi_target, "CAL:SAVE");       // Save calibration data
       printf("Calibrtation saved\n");
     } else
       printf("Calibrtation not saved\n");
@@ -445,7 +517,8 @@ void voltage(void)
 
     if(cont == 'Y')
     {
-      send_command_to_instrument(lxi_target, "CAL:SAVE");
+      send_command_to_instrument(lxi_target, time_cal); // Save calibration time
+      send_command_to_instrument(lxi_target, "CAL:SAVE");       // Save calibration data
       printf("Calibrtation saved\n");
     } else
       printf("Calibrtation not saved\n");
@@ -472,13 +545,13 @@ int main(int argc, char **argv)
   if(argc == 1)
   {
     printf
-        ("Options: \n-V Voltage calibration\n-C Current calibration\n-P Performance verification mode\n-A Adjustment mode\n-r Reference DMM IP address\n-t Target 2450 IP address\n-R Range\n\nExample: 2450_cal_voltage -t 192.168.88.200 -r 192.168.88.203 -R 0.2 -P\n");
+        ("Options: \n-D Request calibration data\n-V Voltage calibration\n-C Current calibration\n-P Performance verification mode\n-A Adjustment mode\n-r Reference DMM IP address\n-t Target 2450 IP address\n-R Range\n\nExample: 2450_cal_voltage -t 192.168.88.200 -r 192.168.88.203 -R 0.2 -P\n");
     return 0;
   }
 
 
 
-  while ((opt = getopt(argc, argv, "VCPAt:r:R:")) != -1)
+  while ((opt = getopt(argc, argv, "DVCPAt:r:R:")) != -1)
   {
     switch (opt)
     {
@@ -514,6 +587,9 @@ int main(int argc, char **argv)
       break;
     case 'V':
       volt_cur = 0;
+      break;
+    case 'D':
+      mode = 2;
       break;
     case 'C':
       volt_cur = 1;
@@ -560,11 +636,21 @@ int main(int argc, char **argv)
     return 0;
   }
 
-  if(volt_cur == 0)
+  time(&rawtime);
+  timeinfo = localtime(&rawtime);
+  strftime(time_cal, 80, "CAL:VER:DATE %Y, %m, %e\n", timeinfo);
+
+  if(mode == 2)
   {
-    voltage();
+    request();
   } else
-    current();
+  {
+    if(volt_cur == 0)
+    {
+      voltage();
+    } else
+      current();
+  }
 
   lxi_disconnect(lxi_reference);
   lxi_disconnect(lxi_target);
