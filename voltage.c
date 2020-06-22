@@ -125,14 +125,14 @@ int main(int argc, char **argv)
   lxi_reference = lxi_connect(reference_ip, 5025, "inst0", 1000, RAW);  // Try connect to reference
   if(lxi_reference == LXI_ERROR)
   {
-    printf("LXI connection to reference DMM fail.\n");
+    printf("LXI connection to reference DMM - fail.\n");
     return 0;
   }
 
   lxi_target = lxi_connect(target_ip, 5025, "inst0", 1000, RAW);        // Try connect to destination
   if(lxi_target == LXI_ERROR)
   {
-    printf("LXI connection to target.\n");
+    printf("LXI connection to target - fail.\n");
     return 0;
   }
 // init reference DMM
