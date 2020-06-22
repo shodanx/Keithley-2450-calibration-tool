@@ -328,6 +328,7 @@ int main(int argc, char **argv)
   }
 
 
+  send_command_to_instrument(lxi_target, ":OUTP:STAT OFF");
 
   lxi_disconnect(lxi_reference);
   lxi_disconnect(lxi_target);
