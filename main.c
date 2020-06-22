@@ -545,7 +545,10 @@ int main(int argc, char **argv)
   if(argc == 1)
   {
     printf
-        ("Options: \n-D Request calibration data\n-V Voltage calibration\n-C Current calibration\n-P Performance verification mode\n-A Adjustment mode\n-r Reference DMM IP address\n-t Target 2450 IP address\n-R Range\n\nExample: 2450_cal_voltage -t 192.168.88.200 -r 192.168.88.203 -R 0.2 -P\n");
+        ("Options: \n-D Request calibration data\n-V Voltage calibration\n-C Current calibration\n-P Performance verification mode\n-A Adjustment mode\n-r Reference DMM IP address\n-t Target 2450 IP address\n-R Range\n\n");
+    printf("Example, verification 200mV range: 2450_calibration -t 192.168.88.200 -r 192.168.88.203 -V -R 0.2 -P\n");
+    printf("Example, adjustment 2V range: 2450_calibration -t 192.168.88.200 -r 192.168.88.203 -V -R 0.2 -A\n");
+    printf("Example, verification 1mA range: 2450_calibration -t 192.168.88.200 -r 192.168.88.203 -C -R 1e-3 -P\n");
     return 0;
   }
 
