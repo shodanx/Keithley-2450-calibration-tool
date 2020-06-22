@@ -536,6 +536,14 @@ int main(int argc, char **argv)
     }
   }
 
+  if(mode == 1)
+    if(atof(range) < 1e-4)
+    {
+      printf("You can't adjust 2450 on lower 100uA !\n");
+      return 0;
+    }
+
+
   lxi_init();                   // Initialize LXI library
 
   lxi_reference = lxi_connect(reference_ip, 5025, "inst0", 1000, RAW);  // Try connect to reference
