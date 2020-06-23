@@ -1,4 +1,4 @@
-# **ATTENTION: for crazy homemade metrologist only !!! **
+# **ATTENTION: for crazy homemade metrologist only !!!**
 
 # Keithley 2450 calibration software
 
