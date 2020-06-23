@@ -9,7 +9,7 @@ I love when all my instruments are tuned with a small relative offset.
 But calibration of my Keithley 2450 has expired and him show large offset :(
 A few days ago I received Agilent 34410A from Keysight metrology lab with fresh calibration certificate. After a little and very painful thinking, I decided make software for transfer voltage/current calibration from Agilent 34410A to Keithley 2450.
 
-That software design running on RPi based systems. That software based on [url=https://github.com/lxi-tools/liblxi]Liblxi library[/url].
+That software design running on RPi based systems. That software based on [Liblxi](https://github.com/lxi-tools/liblxi) library.
 
 
 ## Usage
