@@ -35,8 +35,9 @@ Command line options:
 Calibration transfer stand:
 ![Calibration transfer stand](https://misrv.com/wp-content/uploads/2020/06/DSC_0001.jpg)
 
-**Warning: Keithley 2450 may calibrated on rear-triax inputs only, see: "Calibration considerations" (Calibration Manual 2450-905-01 Rev. A / June 2014)
-ATTENTION: you can't make proper calibration with 34410A, see: "Recommended calibration equipment" (Calibration Manual 2450-905-01 Rev. A / June 2014)**
+**Warning: Keithley 2450 may calibrated on rear-triax inputs only, see: "Calibration considerations" (Calibration Manual 2450-905-01 Rev. A / June 2014)**
+
+**ATTENTION: you can't make proper calibration with 34410A, see: "Recommended calibration equipment" (Calibration Manual 2450-905-01 Rev. A / June 2014)**
 
 ## Examples
 
