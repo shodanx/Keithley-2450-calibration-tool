@@ -19,8 +19,8 @@ That software design running on RPi based systems. That software based on [Liblx
  3. Prepare popcorn/beer/coffee/some else. :)
 
 That software included 2 mode: 
-"Performance verification" - compare 34410A with 2450. 
-"Adjustment" - transfer calibration from 34410A to 2450. 
+- "Performance verification" - compare 34410A with 2450. 
+- "Adjustment" - transfer calibration from 34410A to 2450. 
 
 Command line options:
 - -P Performance verification (default)
