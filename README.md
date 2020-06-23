@@ -42,7 +42,9 @@ Calibration transfer stand:
 ## Examples
 
 Verification 200mV range: 2450_calibration -t 192.168.88.200 -r 192.168.88.203 -V -R 0.2 -P
+
 Adjustment 2V range: 2450_calibration -t 192.168.88.200 -r 192.168.88.203 -V -R 0.2 -A
+
 Verification 1mA range: 2450_calibration -t 192.168.88.200 -r 192.168.88.203 -C -R 1e-3 -P
 
 Current verification 100uA range:
