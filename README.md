@@ -23,14 +23,14 @@ That software included 2 mode:
 "Adjustment" - transfer calibration from 34410A to 2450. 
 
 Command line options:
--P Performance verification (default)
--A Adjustment
--D Request calibration data
--r Reference DMM IP address
--t Target 2450 IP address
--R Range
--V Voltage mode (default)
--C Current mode
+- -P Performance verification (default)
+- -A Adjustment
+- -D Request calibration data
+- -r Reference DMM IP address
+- -t Target 2450 IP address
+- -R Range
+- -V Voltage mode (default)
+- -C Current mode
 
 Calibration transfer stand:
 ![Calibration transfer stand](https://misrv.com/wp-content/uploads/2020/06/DSC_0001.jpg)
